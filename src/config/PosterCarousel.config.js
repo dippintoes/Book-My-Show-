@@ -1,39 +1,33 @@
 const settings = {
     infinite: false,
-    autoplay: false,
+    speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 2,
-    InitialSlide: 0,
+    slidesToScroll: 4,
+    initialSlide: 0,
     responsive: [
-        {
-        breakpoints: 1024,
+      {
+        breakpoint: 1024,
         settings: {
-            slideToShow: 3,
-            slideToScroll : 2,
-            infinite: true,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
         },
-    },
-    {
-        breakpoints: 768,
+      },
+      {
+        breakpoint: 600,
         settings: {
-            slideToShow: 2,
-            slideToScroll : 1,
-            infinite: true,
-            InitialSlide: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
         },
-    },
-    {
-        breakpoints: 480,
+      },
+      {
+        breakpoint: 480,
         settings: {
-            slideToShow: 2,
-            slideToScroll : 1,
-            infinite: true,
-            InitialSlide: 2,
+          slidesToShow: 3,
+          slidesToScroll: 1,
         },
-    },
-
-],
-
-};
-
+      },
+    ],
+  };
 export default settings;
