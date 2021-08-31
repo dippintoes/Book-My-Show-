@@ -1,16 +1,66 @@
-import React from 'react'
+import React , {useContext, useState, useEffect }from 'react'
 import {FaCcPaypal } from "react-icons/fa";
 
 //components
 import MovieHero from '../components/MovieHero/MovieHero.component';
 import Cast from '../components/Cast/Cast.component';
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
-
+import Crew from '../components/Crew/Crew.component';
 //config
 import TempPosters from '../config/TempPosters.config';
+
+//context
+import { MovieContext } from '../context/movie.context';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
+
 const Movie = () => {
 
-    const settings = {
+    const {id} = useParams();
+    const {movie} = useContext(MovieContext);
+    const [cast, setCast] = useState([]);
+    const [crew, setCrew] = useState([]);
+    const [similar, setSimilar] = useState([]);
+    const [recom, setRecom] = useState([]);
+    useEffect(() => {
+        const requestCast = async()=>{
+            const getCast = await axios.get(`/movie/${id}/credits`);
+            setCast(getCast.data.cast);
+        };
+        requestCast();
+        
+    }, [id])//using id here so that the poster will again redirect to it's specific's play page using the life cycle process shouldcomponentupdate i.e. if id changes the the whole information gets updated
+
+
+    useEffect(() => {
+        const requestCrew = async()=>{
+            const getCrew = await axios.get(`/movie/${id}/credits`);
+            setCrew(getCrew.data.crew);
+        };
+        requestCrew();
+        
+    }, [id])
+
+    useEffect(() => {
+        const requestSimilarMovies = async () => {
+          const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+          setSimilar(getSimilarMovies.data.results);
+        };
+    
+        requestSimilarMovies();
+      }, [id]);
+
+      useEffect(() => {
+        const requestRecomMovies = async () => {
+          const getRecomMovies = await axios.get(`/movie/${id}/recommendations`);
+          setRecom(getRecomMovies.data.results);
+        };
+    
+        requestRecomMovies();
+      }, [id]);
+
+      const settings = {
         infinite: false,
         speed: 500,
         slidesToShow: 3,
@@ -43,6 +93,39 @@ const Movie = () => {
         ],
       };
 
+      const settingsCast = {
+        infinite: false,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 4,
+        initialSlide: 0,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 3,
+              infinite: true,
+            },
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 5,
+              slidesToScroll: 2,
+              initialSlide: 2,
+            },
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+            },
+          },
+        ],
+      };
+
     return (
         <>
              <MovieHero/>
@@ -52,7 +135,7 @@ const Movie = () => {
                     About the movie
                     </h1>
                     <p>
-                    In post-WWII America, a woman who is rebuilding her life in the suburbs, kidnaps her neighbor and seeks vengeance for the heinous war crimes she believes he committed against her.
+                    {movie.overview}
                     </p>
                 </div>
 
@@ -97,12 +180,11 @@ const Movie = () => {
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">
                         Cast
                     </h1>
-                    <div className="flex flex-wrap gap-4">
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                    </div>
+                    <Slider {...settingsCast}>
+                        {cast.map((castdata)=>(
+                            <Cast image={`https://image.tmdb.org/t/p/original${castdata.profile_path}`} CastName={castdata.original_name} Role={castdata.character}/>
+                        ))}  
+                        </Slider>
                 </div>
 
                <div className="my-8">
@@ -113,12 +195,11 @@ const Movie = () => {
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">
                         Crew
                     </h1>
-                    <div className="flex flex-wrap gap-4">
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/noomi-rapace-26919-24-03-2017-17-32-22.jpg" CastName="Noomi Rapace" Role="Maja"/>
-                    </div>
+                    <Slider {...settingsCast}>
+                        {crew.map((crewdata)=>(
+                            <Crew image={`https://image.tmdb.org/t/p/original${crewdata.profile_path}`} CrewName={crewdata.original_name} Role={crewdata.department}/>
+                        ))}  
+                        </Slider>
                 </div>
 
                 <div className="my-8">
@@ -185,7 +266,7 @@ const Movie = () => {
 
                 <div className="my-8">
                     <div className="container mx-auto my-8">
-                    <PosterSlider config={settings} images={TempPosters} title="You might also like" isDark={false} ></PosterSlider>
+                    <PosterSlider config={settings} images={recom} title="You might also like" isDark={false} ></PosterSlider>
                     </div>
                 </div>
 
@@ -195,7 +276,7 @@ const Movie = () => {
 
                 <div className="my-8">
                     <div className="container mx-auto my-8">
-                    <PosterSlider config={settings} images={TempPosters} title="BMS Exclusive" isDark={false} ></PosterSlider>
+                    <PosterSlider config={settings} images={similar} title="BMS Exclusive" isDark={false} ></PosterSlider>
                     </div>
                 </div>
 

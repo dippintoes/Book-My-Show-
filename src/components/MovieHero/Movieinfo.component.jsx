@@ -1,17 +1,35 @@
-import React,{useContext} from 'react';
+import React,{useContext,useState} from 'react';
 
+//components
+import PaymentModal from '../PaymentModal/Payment.component';
 //context
 import { MovieContext } from '../../context/movie.context';
 
+
 const Movieinfo = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const[price,setPrice]=useState(0);
     const {movie} = useContext(MovieContext);
 
     //to use the movies genres and language and other information in tmdb we have a array of genre and so, we will need a array to parse it
     /* const genres = movie.genres && movie.genres.map(({name})=>name).join(", ");
     //the cpondition chacking if genres are present then next conditions will be executed. */
     const genres = movie.genres?.map(({name})=>name).join(", ");//optional chaining
+
+    const rentMovies = () =>{
+        setIsOpen(true);
+        setPrice(149);
+    };
+
+    const buyMovies = () =>{
+        setIsOpen(true);
+        setPrice(199);
+    };
+
+
     return (
         <>
+            <PaymentModal setIsOpen={setIsOpen} isOpen={isOpen} price={price}/>
             <div classname="flex flex-col gap-2 lg:gap-8">
                 <div className="flex items-center gap-2 py-5 md:px-4">
                     <div className="w-25 h-5">
@@ -35,9 +53,9 @@ const Movieinfo = () => {
                     <p className="text-white">{(movie.runtime / 60).toFixed(2)} h &bull; {genres} &bull; {movie.adult ? `U/A` : `U`} &bull; 18 Dec,2020</p>
                 </div>
                 <div className="flex items-center gap-3 md:w-screen lg:w-full md:px-4">
-                    <button className="bg-butt-300 text-white w-full py-3 text-sm rounded-lg font-semibold">Rent ₹ 109
+                    <button onClick={rentMovies} className="bg-butt-300 text-white w-full py-3 text-sm rounded-lg font-semibold">Rent ₹ 109
                     </button>
-                    <button className="bg-butt-300 text-white w-full py-3 text-sm rounded-lg font-semibold">Buy ₹ 109
+                    <button onClick={buyMovies} className="bg-butt-300 text-white w-full py-3 text-sm rounded-lg font-semibold">Buy ₹ 199
                     </button>
                 </div>
                 </div>
