@@ -1,13 +1,17 @@
-import React from "react";
+import React,{useContext} from "react";
 import { BiChevronRight, BiSearch, BiMenu, BiChevronDown,BiShareAlt } from "react-icons/bi";//if not destructured all icons in that package will be imported, to improve performance
+
+//context
+import { MovieContext } from "../../context/movie.context";
+
 import logo from '../../images/logo.svg';
 const Navsm = () =>{
+
+    const {movie} =useContext(MovieContext);
     return (<>
     <div className="flex items-center justify-between">
         <div>
-            <h3 className="text-white text-xl font-bold">
-                It all starts here!
-            </h3>
+            <h3 className="text-red-500 text-xl font-bold">{movie.original_title}</h3>
         </div>
         <div className="w-8 h-8">
             <BiShareAlt className="w-full h-full"/>
@@ -53,6 +57,43 @@ const Navlg = () => {
     );
 };
 
+const Navlg1 = () => {
+    return (
+        <> 
+        <div className="container mx-20 px-4 flex items-center justify-between">
+
+            <div className="flex items-center gap-4 w-1/2 ">
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Movies</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Stream<sup className="text-red-500">New</sup></button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Events</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Plays</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Sports</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Activities</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Buzz</button>
+            </div>
+
+            <div className="flex items-center gap-4 pl-30">
+            <button className="text-white
+                pointer-cursor">ListYourShow<sup className="text-red-500">New</sup></button>
+                <button className="text-white
+                pointer-cursor">Corporates</button>
+                <button className="text-white
+                pointer-cursor">Offers</button>
+                <button className="text-white
+                pointer-cursor">Gift Cards</button>
+            </div>
+        </div>
+        </>
+    );
+};
+
 const MovieNavbar = () =>{
     return <> 
     <nav className="absolute inset-x-0 z-30 bg-opacity-10 backdrop-filter backdrop-blur-lg lg:relative lg:bg-bms-700 p-4">
@@ -69,6 +110,12 @@ const MovieNavbar = () =>{
         <div className="hidden lg:flex">
             {/* Large screen */}
             <Navlg/>
+        </div>
+    </nav>
+    <nav className="bg-bms-800 p-3">
+    <div className="hidden lg:flex">
+            {/* Large screen */}
+            <Navlg1/>
         </div>
     </nav>
     </>;

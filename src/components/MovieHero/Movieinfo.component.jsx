@@ -1,6 +1,15 @@
-import React from 'react'
+import React,{useContext} from 'react';
+
+//context
+import { MovieContext } from '../../context/movie.context';
 
 const Movieinfo = () => {
+    const {movie} = useContext(MovieContext);
+
+    //to use the movies genres and language and other information in tmdb we have a array of genre and so, we will need a array to parse it
+    /* const genres = movie.genres && movie.genres.map(({name})=>name).join(", ");
+    //the cpondition chacking if genres are present then next conditions will be executed. */
+    const genres = movie.genres?.map(({name})=>name).join(", ");//optional chaining
     return (
         <>
             <div classname="flex flex-col gap-2 lg:gap-8">
@@ -13,17 +22,17 @@ const Movieinfo = () => {
                     </span>
                 </div>
                 <h1 className="hidden lg:block text-white text-3xl lg:text-5xl font-bold">
-                    The Secrets We Keep
+                    {movie.original_title}
                 </h1>
                 <div className="flex flex-col-reverse lg:flex-col gap-2 lg:py-4">
                 <div className="flex flex-col gap-5 py-2 md:px-4">
                     <p className="text-white">
-                        English &bull; Languages :  
+                        {movie.original_language} &bull; Languages :  
                         <span className="text-butt-300 px-3">
                             Audio(1), subtitles(1)
                         </span>
                     </p>
-                    <p className="text-white">1h 37m &bull; Drama, Thriller &bull; 18+ &bull; 18 Dec,2020</p>
+                    <p className="text-white">{(movie.runtime / 60).toFixed(2)} h &bull; {genres} &bull; {movie.adult ? `U/A` : `U`} &bull; 18 Dec,2020</p>
                 </div>
                 <div className="flex items-center gap-3 md:w-screen lg:w-full md:px-4">
                     <button className="bg-butt-300 text-white w-full py-3 text-sm rounded-lg font-semibold">Rent ₹ 109

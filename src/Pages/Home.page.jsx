@@ -1,55 +1,90 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
-//components
-
+// Components
 import EntertainmentCardSlider from "../components/Entertainment/EntertainmentCard.component";
-import Poster from "../components/Poster/poster.component";
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
 
-//config
-import TempPosters from '../config/TempPosters.config';
-
+// config
+import TempPosters from "../config/TempPosters.config";
 
 const HomePage = () => {
-return <> 
-<div className="flex flex-col gap-10">
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
-    <div className="container mx-auto px-5 md:px-20">
-    <h1 className="text-2xl font-bold my-3 text-gray-800">The best of entertainment</h1>
-    <EntertainmentCardSlider></EntertainmentCardSlider>
-    </div>
+  useEffect(() => {
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("/movie/popular");
+      setPopularMovies(getPopularMovies.data.results);
+    };
 
-    <div className="bg-butt-800 py-12 px-5 md:px-20">
-        <div className="container">
-            <div className="hidden md:flex">
-                <img src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Premiere" className="h-full w-full"/>
-            </div>
-        <PosterSlider isDark images={TempPosters} title="Premiers" subtitle="Brand new releases every friday" ></PosterSlider>
+    requestPopularMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("/movie/top_rated");
+      setTopRatedMovies(getTopRatedMovies.data.results);
+    };
+
+    requestTopRatedMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("/movie/upcoming");
+      setUpcomingMovies(getUpcomingMovies.data.results);
+    };
+
+    requestUpcomingMovies();
+  }, []);
+
+  return (
+    <>
+      <div className="flex flex-col gap-10">
+        <div className="container mx-auto px-4 ">
+          <h1 className="text-2xl font-bold text-gray-800 my-3">
+            The best of Entertainment
+          </h1>
+          <EntertainmentCardSlider />
         </div>
-    </div> 
 
-    <div className="container mx-auto px-5 md:px-20 lg:my-8">
-    <PosterSlider images={TempPosters} title="Online Streaming Events" isDark={false} ></PosterSlider>
-    </div>
+        <div className="bg-bms-800 py-12 ">
+          <div className="container mx-auto px-4 flex flex-col gap-3">
+            <div className="hidden md:flex">
+              <img
+                src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png"
+                alt="Rupay"
+                className="w-full h-full"
+              />
+            </div>
+            <PosterSlider
+              images={popularMovies}
+              title="Premieres"
+              subtitle="Brand new relases every friday"
+              isDark
+            />
+          </div>
+        </div>
+      </div>
 
-    <div className="container mx-auto px-5 md:px-20 lg:my-8">
-    <PosterSlider images={TempPosters} title="Outdoor Events" isDark={false} ></PosterSlider>
-    </div>
-
-    <div className="container mx-auto px-5 md:px-20 lg:my-8">
-    <PosterSlider images={TempPosters} title="Laughter Events" isDark={false} ></PosterSlider>
-    </div>
-
-    <div className="container mx-auto px-5 md:px-20 lg:my-8">
-    <PosterSlider images={TempPosters} title="Popular Events" isDark={false} ></PosterSlider>
-    </div>
-
-    <div className="container mx-auto px-5 md:px-20 lg:my-8">
-    <PosterSlider images={TempPosters} title="Top games and sports Events" isDark={false} ></PosterSlider>
-    </div>
-</div>
-
-</>
+      <div className="container mx-auto px-4 my-8">
+        <PosterSlider
+          images={topRatedMovies}
+          title="Online Streaming events"
+          isDark={false}
+        />
+      </div>
+      <div className="container mx-auto px-4 my-8">
+        <PosterSlider
+          images={upcomingMovies}
+          title="Outdoor events"
+          isDark={false}
+        />
+      </div>
+    </>
+  );
 };
 
 export default HomePage;

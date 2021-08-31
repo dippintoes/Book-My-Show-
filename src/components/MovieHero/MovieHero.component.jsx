@@ -1,7 +1,11 @@
-import React from 'react'
+import React,{useContext} from 'react'
+import { MovieContext } from '../../context/movie.context';
+
+//context
 import Movieinfo from './Movieinfo.component';
 
 const MovieHero = () => {
+    const {movie} = useContext(MovieContext);
     return (
         <>
             <div>
@@ -11,7 +15,7 @@ const MovieHero = () => {
                         <Movieinfo/>
                     </div>
                     <div className="h-56 w-full absolute bg-black bg-opacity-90 z-10 bottom-0"/>
-                        <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/the-secrets-we-keep-et00137312-20-05-2021-10-39-32.jpg" alt="the secrets we keep" className="w-full h-full"/>
+                        <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt= {movie.original_title}  className="w-full h-full"/>
                 </div>
 {/* medium */}
                 <div className="relative hidden md:block lg:hidden w-full h-full" style={{height: "calc(100vw)"}}>
@@ -19,7 +23,7 @@ const MovieHero = () => {
                         <Movieinfo/>
                     </div>
                     <div className="h-56 w-full absolute bg-black bg-opacity-80 z-10 bottom-0"/>
-                    <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/the-secrets-we-keep-et00137312-20-05-2021-10-39-32.jpg" alt="the secrets we keep" className="w-full h-full"/>
+                    <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt= {movie.original_title} className="w-full h-full"/>
                 </div>
 {/* large */}
                 <div className="relative hidden lg:block w-full" style={{height: "30rem"}}> 
@@ -28,13 +32,13 @@ const MovieHero = () => {
                 
                     <div className="absolute z-10 left-24 top-10 flex items-center gap-7">
                         <div className="w-64 h-96">
-                            <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/the-secrets-we-keep-et00137312-20-05-2021-10-39-32.jpg" alt="the secrets we keep" className="w-full h-full rounded-lg"/>
+                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt= {movie.original_title} className="w-full h-full rounded-lg"/>
                         </div>
                         <div>
                                 <Movieinfo/>
                         </div> 
                     </div>
-                        <img src="https://in.bmscdn.com/iedb/movies/images/extra/horizontal_no_logo/mobile/listing/xxlarge/the-secrets-we-keep-et00137312-20-05-2021-10-39-32.jpg" alt="the secrets we keep" className="w-full h-full"/>            
+                        <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt= {movie.original_title} className="w-full h-full"/>            
                 </div>
             </div>
         </>

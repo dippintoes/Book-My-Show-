@@ -64,6 +64,43 @@ const Navlg = () => {
     );
 };
 
+const Navlg1 = () => {
+    return (
+        <> 
+        <div className="container px-4 flex">
+
+            <div className="mx-10 flex items-center gap-4 ">
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Movies</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Stream<sup className="text-red-500">New</sup></button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Events</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Plays</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Sports</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Activities</button>
+                <button className="text-gray-300
+                pointer-cursor hover:text-white">Buzz</button>
+            </div>
+
+            <div className="ml-96 px-24 flex gap-4">
+            <button className="text-white
+                pointer-cursor">ListYourShow<sup className="text-red-500">New</sup></button>
+                <button className="text-white
+                pointer-cursor">Corporates</button>
+                <button className="text-white
+                pointer-cursor">Offers</button>
+                <button className="text-white
+                pointer-cursor">Gift Cards</button>
+            </div>
+        </div>
+        </>
+    );
+};
+
 const Navbar = () =>{
     return <> 
     <nav className="bg-bms-700 p-4">
@@ -80,6 +117,12 @@ const Navbar = () =>{
         <div className="hidden lg:flex">
             {/* Large screen */}
             <Navlg/>
+        </div>
+    </nav>
+    <nav className="bg-bms-800 p-3 hidden md: hidden lg:flex">
+    <div>
+            {/* Large screen */}
+            <Navlg1/>
         </div>
     </nav>
     </>;
