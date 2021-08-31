@@ -7,6 +7,26 @@ export default function PaymentModal({isOpen, setIsOpen,price}) {
     setIsOpen(false)
   }
 
+  const launchRazorPay = () => {
+    let options= {
+      key: "rzp_test_Dgj5ZHzAfcKEwq",
+      amount: price * 100,//cause they accept in paise
+      currency: "INR",
+      name: "Book My Show Clone",
+      description: "Movie Rental or selling website",
+      image: "https://i.ibb.co/zPBYW3H/imgbin-bookmyshow-office-android-ticket-png.png",//logo link
+      handler: ()=>{
+        setIsOpen(false);
+        alert("Payment Done");
+      },//will be triggered only after razorpay operation is done i.e. successfull or failed
+        theme: { color: "#c4242d"},//basic ui of razorpay
+    }
+    let razorPay = new window.Razorpay(options);
+    razorPay.open();
+
+  };
+
+
   return (
     <>
 
@@ -62,7 +82,7 @@ export default function PaymentModal({isOpen, setIsOpen,price}) {
                   <button
                     type="button"
                     className="w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
-                    onClick={closeModal}
+                    onClick={launchRazorPay}
                   >
                     Pay ₹{price}
                   </button>
